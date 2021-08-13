@@ -1,0 +1,284 @@
+openapi: '3.0.1'
+info:
+  title: Routes
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: dutomazoni@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: '1.0'
+servers:
+  - url: http://localhost:5001
+tags:
+  - name: User
+    description: Users' routes.
+  - name: Company
+    description: Companies' routes.
+
+
+paths:
+  /login:
+    post:
+      tags:
+        - User
+      summary: Send a login request.
+      description: Request shape - http://localhost:5001/login
+      operationId: postLogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              example:
+                email: "user@email.com"
+                password: "password"
+        required: true
+      responses:
+        201:
+          description: Returns the user's token.
+          content:
+            application/json:
+              examples:
+                login:
+                  value:
+                    {
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZW1haWwuY29tIiwidXNlcklkIjoidXNlcklkIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjI4ODU3OTY0fQ.XfI8O3Hjolbrj8FwgQ-wvam8M3OEYjgIQ9VacIM6thc",
+                      "status": 201
+                    }
+  /company/{cnpj}:
+    get:
+      tags:
+        - Company
+      security:
+        - bearerAuth: [ ]
+      summary: Search for a company by CNPJ.
+      description: Request shape - http://localhost:5001/company/*cnpj*
+      operationId: getCompany
+      parameters:
+        - in: path
+          required: true
+          name: cnpj
+          schema:
+            type: string
+            example: "19131243000197"
+      responses:
+        200:
+          description: Returns the company.
+          content:
+            application/json:
+              example:
+                products:
+                  value:
+                    {
+                      "company": {
+                        "_id": "61157403d19e253de0498f08",
+                        "cnpj": "19131243000197",
+                        "identificador_matriz_filial": 1,
+                        "descricao_matriz_filial": "Matriz",
+                        "razao_social": "OPEN KNOWLEDGE BRASIL",
+                        "nome_fantasia": "REDE PELO CONHECIMENTO LIVRE",
+                        "situacao_cadastral": 2,
+                        "descricao_situacao_cadastral": "Ativa",
+                        "data_situacao_cadastral": "2013-10-03",
+                        "motivo_situacao_cadastral": 0,
+                        "nome_cidade_exterior": "",
+                        "codigo_natureza_juridica": 3999,
+                        "data_inicio_atividade": "2013-10-03",
+                        "cnae_fiscal": 9430800,
+                        "cnae_fiscal_descricao": "Atividades de associações de defesa de direitos sociais",
+                        "logradouro": "PAULISTA 37",
+                        "numero": "37",
+                        "complemento": "ANDAR 4",
+                        "bairro": "BELA VISTA",
+                        "cep": 1311902,
+                        "uf": "SP",
+                        "codigo_municipio": 7107,
+                        "municipio": "SAO PAULO",
+                        "ddd_telefone_1": "11  23851939",
+                        "ddd_telefone_2": "",
+                        "ddd_fax": "",
+                        "qualificacao_do_responsavel": 16,
+                        "capital_social": 0,
+                        "porte": 5,
+                        "descricao_porte": "Demais",
+                        "opcao_pelo_simples": false,
+                        "data_opcao_pelo_simples": null,
+                        "opcao_pelo_mei": false,
+                        "situacao_especial": "",
+                        "data_situacao_especial": null,
+                        "qsa": [
+                          {
+                            "_id": "61157403d19e253de0498f09",
+                            "identificador_de_socio": 2,
+                            "nome_socio": "FERNANDA CAMPAGNUCCI PEREIRA",
+                            "cnpj_cpf_do_socio": "",
+                            "codigo_qualificacao_socio": 16,
+                            "percentual_capital_social": 0,
+                            "data_entrada_sociedade": "2019-10-25",
+                            "cpf_representante_legal": "",
+                            "nome_representante_legal": "",
+                            "codigo_qualificacao_representante_legal": "0"
+                          }
+                        ],
+                        "cnaes_secundarios": [ ],
+                        "__v": 0
+                      }
+                    }
+    post:
+      tags:
+        - Company
+      security:
+        - bearerAuth: [ ]
+      summary: Register a company by CNPJ.
+      description: Request shape - http://localhost:5001/company/*cnpj*
+      operationId: postCompany
+      parameters:
+        - in: path
+          required: true
+          name: cnpj
+          schema:
+            type: string
+            example: "19131243000197"
+      responses:
+        200:
+          description: Returns a message of company successfully registered.
+          content:
+            application/json:
+              example:
+                products:
+                  value:
+                    {
+                      "message": "Company registered successfully!"
+                    }
+    put:
+      tags:
+        - Company
+      security:
+        - bearerAuth: [ ]
+      summary: Edit a company's fantasy name.
+      description: Request shape - http://localhost:5001/company/*cnpj*
+      operationId: editCompany
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome_fantasia:
+                  type: string
+              example:
+                email: "Novo Nome"
+      parameters:
+        - in: path
+          required: true
+          name: cnpj
+          schema:
+            type: string
+            example: "19131243000197"
+      responses:
+        200:
+          description: Returns a message of company successfully updated and the company data.
+          content:
+            application/json:
+              example:
+                products:
+                  value:
+                    {
+                      "message": "Company updated successfully!"
+                        "company": {
+                          "_id": "61157403d19e253de0498f08",
+                          "cnpj": "19131243000197",
+                          "identificador_matriz_filial": 1,
+                          "descricao_matriz_filial": "Matriz",
+                          "razao_social": "OPEN KNOWLEDGE BRASIL",
+                          "nome_fantasia": "Novo Nome",
+                          "situacao_cadastral": 2,
+                          "descricao_situacao_cadastral": "Ativa",
+                          "data_situacao_cadastral": "2013-10-03",
+                          "motivo_situacao_cadastral": 0,
+                          "nome_cidade_exterior": "",
+                          "codigo_natureza_juridica": 3999,
+                          "data_inicio_atividade": "2013-10-03",
+                          "cnae_fiscal": 9430800,
+                          "cnae_fiscal_descricao": "Atividades de associações de defesa de direitos sociais",
+                          "logradouro": "PAULISTA 37",
+                          "numero": "37",
+                          "complemento": "ANDAR 4",
+                          "bairro": "BELA VISTA",
+                          "cep": 1311902,
+                          "uf": "SP",
+                          "codigo_municipio": 7107,
+                          "municipio": "SAO PAULO",
+                          "ddd_telefone_1": "11  23851939",
+                          "ddd_telefone_2": "",
+                          "ddd_fax": "",
+                          "qualificacao_do_responsavel": 16,
+                          "capital_social": 0,
+                          "porte": 5,
+                          "descricao_porte": "Demais",
+                          "opcao_pelo_simples": false,
+                          "data_opcao_pelo_simples": null,
+                          "opcao_pelo_mei": false,
+                          "situacao_especial": "",
+                          "data_situacao_especial": null,
+                          "qsa": [
+                            {
+                              "_id": "61157403d19e253de0498f09",
+                              "identificador_de_socio": 2,
+                              "nome_socio": "FERNANDA CAMPAGNUCCI PEREIRA",
+                              "cnpj_cpf_do_socio": "",
+                              "codigo_qualificacao_socio": 16,
+                              "percentual_capital_social": 0,
+                              "data_entrada_sociedade": "2019-10-25",
+                              "cpf_representante_legal": "",
+                              "nome_representante_legal": "",
+                              "codigo_qualificacao_representante_legal": "0"
+                            }
+                          ],
+                          "cnaes_secundarios": [ ],
+                          "__v": 0
+                        }
+                    }
+
+  /company/delete/{cnpj}:
+    post:
+      tags:
+        - Company
+      security:
+        - bearerAuth: [ ]
+      summary: Delete a company using its CNPJ.
+      description: Request shape - http://localhost:5001/company/delete/*cnpj*
+      operationId: deleteCompany
+      parameters:
+        - in: path
+          required: true
+          name: cnpj
+          schema:
+            type: string
+            example: "19131243000197"
+      responses:
+        200:
+          description: Returns a message of company successfully deleted.
+          content:
+            application/json:
+              example:
+                products:
+                  value:
+                    {
+                      "message": "Company deleted successfully!"
+                    }
+
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  # optional, for documentation purposes only
