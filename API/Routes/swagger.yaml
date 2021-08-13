@@ -190,7 +190,7 @@ paths:
                 products:
                   value:
                     {
-                      "message": "Company updated successfully!"
+                      "message": "Company updated successfully!",
                         "company": {
                           "_id": "61157403d19e253de0498f08",
                           "cnpj": "19131243000197",
